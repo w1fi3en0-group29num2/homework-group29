@@ -1,3 +1,4 @@
+// implemented the whole SM3 which contains the Rho method of reduced SM3(CF exactly) and can be proved right.
 #include<iostream>
 using namespace std;
 
