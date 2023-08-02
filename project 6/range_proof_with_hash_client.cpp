@@ -25,7 +25,7 @@ int main()
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
     {
-        cerr << "³õÊ¼»¯Winsock¿âÊ§°Ü" << endl;
+        cerr << "åˆå§‹åŒ–Winsockåº“å¤±è´¥" << endl;
         return -1;
     }
 
@@ -33,43 +33,43 @@ int main()
     struct sockaddr_in serverAddress;
     char buffer[BUFFER_SIZE];
 
-    // ´´½¨Ì×½Ó×Ö
+    // åˆ›å»ºå¥—æ¥å­—
     clientSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (clientSocket == INVALID_SOCKET)
     {
-        cerr << "ÎŞ·¨´´½¨Ì×½Ó×Ö" << endl;
+        cerr << "æ— æ³•åˆ›å»ºå¥—æ¥å­—" << endl;
         WSACleanup();
         return -1;
     }
 
-    // ÉèÖÃ·şÎñÆ÷µØÖ·
+    // è®¾ç½®æœåŠ¡å™¨åœ°å€
     serverAddress.sin_family = AF_INET;
     //serverAddress.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
     inet_pton(AF_INET, "127.0.0.1", &(serverAddress.sin_addr));
     serverAddress.sin_port = htons(58888);
 
-    // Á¬½Óµ½·şÎñÆ÷
+    // è¿æ¥åˆ°æœåŠ¡å™¨
     if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR)
     {
-        cerr << "Á¬½Óµ½·şÎñÆ÷Ê§°Ü" << endl;
+        cerr << "è¿æ¥åˆ°æœåŠ¡å™¨å¤±è´¥" << endl;
         closesocket(clientSocket);
         WSACleanup();
         return -1;
     }
 
-    cout << "ÒÑÁ¬½Óµ½·şÎñÆ÷" << endl;
+    cout << "å·²è¿æ¥åˆ°æœåŠ¡å™¨" << endl;
 
-    // Óë·şÎñÆ÷½øĞĞÍ¨ĞÅ
+    // ä¸æœåŠ¡å™¨è¿›è¡Œé€šä¿¡
     int n = 1;
     while (n--)
     {
-        // ·¢ËÍÏûÏ¢¸ø·şÎñÆ÷
+        // å‘é€æ¶ˆæ¯ç»™æœåŠ¡å™¨
         string message;
-        cout << "Ö¤Ã÷AliceµÄÄêÁä > 21: "<<endl;
+        cout << "è¯æ˜Aliceçš„å¹´é¾„ > 21: "<<endl;
 
-        random_device rd;//ÓÃÓÚÉú³ÉËæ»úÊıÖÖ×Ó
-        mt19937 r_eng(rd());//Ëæ»úÊıÉú³ÉÆ÷  
-        uniform_int_distribution<uint32_t> dis(0, 255);//Ëæ»úÊı·Ö²¼Æ÷ ±ÕÇø¼ä
+        random_device rd;//ç”¨äºç”Ÿæˆéšæœºæ•°ç§å­
+        mt19937 r_eng(rd());//éšæœºæ•°ç”Ÿæˆå™¨  
+        uniform_int_distribution<uint32_t> dis(0, 255);//éšæœºæ•°åˆ†å¸ƒå™¨ é—­åŒºé—´
         uint8_t seed[SEED_LENGTH] = {};
         for (int i = 0; i < SEED_LENGTH; ++i)
         {
@@ -104,19 +104,19 @@ int main()
         }
         send(clientSocket, (char*)sigc, MD5_DIGEST_LENGTH, 0);
 
-        // ½ÓÊÕ·şÎñÆ÷µÄ»Ø¸´ÏûÏ¢
+        // æ¥æ”¶æœåŠ¡å™¨çš„å›å¤æ¶ˆæ¯
         memset(buffer, 0, BUFFER_SIZE);
         recv(clientSocket, buffer, BUFFER_SIZE, 0);
-        cout << "½ÓÊÕµ½·şÎñÆ÷»Ø¸´ÏûÏ¢: " << buffer << endl;
+        cout << "æ¥æ”¶åˆ°æœåŠ¡å™¨å›å¤æ¶ˆæ¯: " << buffer << endl;
         memset(buffer, 0, BUFFER_SIZE);
         recv(clientSocket, buffer, BUFFER_SIZE, 0);
-        cout << "½ÓÊÕµ½·şÎñÆ÷»Ø¸´ÏûÏ¢: " << buffer << endl;
+        cout << "æ¥æ”¶åˆ°æœåŠ¡å™¨å›å¤æ¶ˆæ¯: " << buffer << endl;
         memset(buffer, 0, BUFFER_SIZE);
         recv(clientSocket, buffer, BUFFER_SIZE, 0);
-        cout << "½ÓÊÕµ½·şÎñÆ÷»Ø¸´ÏûÏ¢: " << buffer << endl;
+        cout << "æ¥æ”¶åˆ°æœåŠ¡å™¨å›å¤æ¶ˆæ¯: " << buffer << endl;
     }
 
-    // ¹Ø±ÕÌ×½Ó×Ö
+    // å…³é—­å¥—æ¥å­—
     closesocket(clientSocket);
     WSACleanup();
 
