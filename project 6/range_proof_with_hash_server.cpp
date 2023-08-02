@@ -19,7 +19,7 @@ void loghex(char* message) {
 int main() {
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        cerr << "³õÊ¼»¯Winsock¿âÊ§°Ü" << endl;
+        cerr << "åˆå§‹åŒ–Winsockåº“å¤±è´¥" << endl;
         return -1;
     }
 
@@ -27,66 +27,66 @@ int main() {
     sockaddr_in serverAddress, clientAddress;
     char buffer[BUFFER_SIZE];
 
-    // ´´½¨Ì×½Ó×Ö
+    // åˆ›å»ºå¥—æŽ¥å­—
     serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (serverSocket == INVALID_SOCKET) {
-        cerr << "ÎÞ·¨´´½¨Ì×½Ó×Ö" << endl;
+        cerr << "æ— æ³•åˆ›å»ºå¥—æŽ¥å­—" << endl;
         WSACleanup();
         return -1;
     }
 
-    // ÉèÖÃ·þÎñÆ÷µÄIPµØÖ·ºÍ¶Ë¿ÚºÅ
+    // è®¾ç½®æœåŠ¡å™¨çš„IPåœ°å€å’Œç«¯å£å·
     serverAddress.sin_family = AF_INET;
     if (inet_pton(AF_INET, "127.0.0.1", &(serverAddress.sin_addr)) <= 0) {
-        cerr << "ÎÞÐ§µÄIPµØÖ·" << endl;
+        cerr << "æ— æ•ˆçš„IPåœ°å€" << endl;
         closesocket(serverSocket);
         WSACleanup();
         return 1;
     }
     serverAddress.sin_port = htons(58888);
 
-    // °ó¶¨Ì×½Ó×Öµ½·þÎñÆ÷µØÖ·
+    // ç»‘å®šå¥—æŽ¥å­—åˆ°æœåŠ¡å™¨åœ°å€
     if (bind(serverSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR) {
-        cerr << "°ó¶¨Ì×½Ó×ÖÊ§°Ü" << endl;
+        cerr << "ç»‘å®šå¥—æŽ¥å­—å¤±è´¥" << endl;
         closesocket(serverSocket);
         WSACleanup();
         return -1;
     }
 
-    // ¼àÌýÁ¬½ÓÇëÇó
+    // ç›‘å¬è¿žæŽ¥è¯·æ±‚
     if (listen(serverSocket, 1) == SOCKET_ERROR) {
-        cerr << "¼àÌýÊ§°Ü" << endl;
+        cerr << "ç›‘å¬å¤±è´¥" << endl;
         closesocket(serverSocket);
         WSACleanup();
         return -1;
     }
 
-    cout << "µÈ´ý¿Í»§¶ËÁ¬½Ó..." << endl;
+    cout << "ç­‰å¾…å®¢æˆ·ç«¯è¿žæŽ¥..." << endl;
 
-    // ½ÓÊÜ¿Í»§¶ËÁ¬½Ó
+    // æŽ¥å—å®¢æˆ·ç«¯è¿žæŽ¥
     int clientAddressSize = sizeof(clientAddress);
     clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
     if (clientSocket == INVALID_SOCKET) {
-        cerr << "½ÓÊÜ¿Í»§¶ËÁ¬½ÓÊ§°Ü" << endl;
+        cerr << "æŽ¥å—å®¢æˆ·ç«¯è¿žæŽ¥å¤±è´¥" << endl;
         closesocket(serverSocket);
         WSACleanup();
         return -1;
     }
 
-    cout << "¿Í»§¶ËÒÑÁ¬½Ó" << endl;
+    cout << "å®¢æˆ·ç«¯å·²è¿žæŽ¥" << endl;
 
-    // Óë¿Í»§¶Ë½øÐÐÍ¨ÐÅ
+    // ä¸Žå®¢æˆ·ç«¯è¿›è¡Œé€šä¿¡
     uint8_t p[MD5_DIGEST_LENGTH] = {};
     uint8_t sigc[MD5_DIGEST_LENGTH+1] = {};
     int n = 2;
     while (n--) {
         memset(buffer, 0, BUFFER_SIZE);
-        recv(clientSocket, buffer, BUFFER_SIZE, 0);// ½ÓÊÕ¿Í»§¶ËÏûÏ¢
-        cout << "½ÓÊÕµ½¿Í»§¶ËÏûÏ¢: ";
+        recv(clientSocket, buffer, BUFFER_SIZE, 0);// æŽ¥æ”¶å®¢æˆ·ç«¯æ¶ˆæ¯
+        cout << "æŽ¥æ”¶åˆ°å®¢æˆ·ç«¯æ¶ˆæ¯: ";
         loghex(buffer);
 
-        // ·¢ËÍ»Ø¸´ÏûÏ¢¸ø¿Í»§¶Ë
-        string replyMessage = "ÊÕµ½ÏûÏ¢£¡";
+        // å‘é€å›žå¤æ¶ˆæ¯ç»™å®¢æˆ·ç«¯
+        string replyMessage = "æ”¶åˆ°æ¶ˆæ¯ï¼";
         send(clientSocket, replyMessage.c_str(), (int)replyMessage.length(), 0);
         if (n == 1) {
             memcpy(p, buffer, MD5_DIGEST_LENGTH);
@@ -106,7 +106,7 @@ int main() {
     //cout << "p: ";
     //loghex((char*)p);
     MD5(p, MD5_DIGEST_LENGTH, MD5result);
-    //cout << "pµÚÒ»´Î¼ÓÃÜ: ";
+    //cout << "pç¬¬ä¸€æ¬¡åŠ å¯†: ";
     //loghex((char*)MD5result);
     for (int i = 1; i < d1; i++) {
         memcpy(tmp, MD5result, MD5_DIGEST_LENGTH);
@@ -118,17 +118,17 @@ int main() {
         loghex((char*)sigc);
         cout << "c': ";
         loghex((char*)c_);
-        string replyMessage = "ÑéÖ¤³É¹¦£¡";
+        string replyMessage = "éªŒè¯æˆåŠŸï¼";
         cout << replyMessage << endl;
         send(clientSocket, replyMessage.c_str(), (int)replyMessage.length(), 0);
     }
     else {
-        string replyMessage = "ÑéÖ¤Ê§°Ü£¡";
+        string replyMessage = "éªŒè¯å¤±è´¥ï¼";
         cout << replyMessage << endl;
         send(clientSocket, replyMessage.c_str(), (int)replyMessage.length(), 0);
     }
 
-    // ¹Ø±ÕÌ×½Ó×Ö
+    // å…³é—­å¥—æŽ¥å­—
     closesocket(clientSocket);
     closesocket(serverSocket);
     WSACleanup();
